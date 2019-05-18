@@ -1,0 +1,88 @@
+<head>
+  <title>bookreview_app</title>
+</head>
+
+<body>
+	{{>image_add_form}}
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+    	<div class="container">
+		{{> loginButtons}}
+		</div>
+	</nav>
+
+    <div class="container">
+		<h3>Welcome to Book Review App {{username}}!</h3>
+		{{> images}}
+	</div>
+</body>
+
+<template name="image_add_form">
+
+	<div class="modal fade" id="image_add_form">
+	<div class="modal-dialog">
+	<div class="modal-content">
+	<div class="modal-header">
+	<div class="modal-title">
+	</div>
+	</div>
+
+	<div class="modal-body">
+		<form class="js-add-image">
+		Link  <div> <input type="text" name="img_src"/></div>
+		Label <div><input type="text" name="img_alt"/></div> <br/>
+		<button class="btn btn-success">save</button>
+		</form>
+	</div>
+
+	<div class="modal-footer">
+		<button class="btn btn-warning" data-dismiss = "modal">cancel</button>
+	</div>
+
+	</div>
+	</div>
+	</div>
+</template>
+
+<template name="images">
+	{{#if currentUser}}
+	<button class="btn btn-success js-show-image-form">Add book</button>
+	{{/if}}	
+
+	<h6>
+	{{#if filtering_images}}
+	Showing books added by {{getFilterUser}}
+    <a href="#" class="js-unset-image-filter">Show all books</a>
+	{{/if}}
+	</h6>
+
+	<div class="row">
+	{{#each images}}
+		<div class="col-xs-12 col-md-3" id="{{_id}}">
+		<div class="thumbnail">
+		  <img class="thumbnail-img" src="{{img_src}}" 
+		  alt="{{img_alt}}"/>
+		  
+	<div class="caption">
+	{{#if currentUser}}
+		<h5>Rating:{{rating}}</h5>
+		<p>{{>starsRating mutable=true class="js-rate-image" id=_id}}</p>  
+		   
+        <p> User:
+			<a href ="#" class="js-set-image-filter">
+			{{getUser createdBy}}</a>
+		</p>
+		
+		<button class="js-del-image btn btn-warning">delete</button>		
+  {{/if}}	
+		    		
+    </div>
+	</div>
+	</div> <!-- / col -->
+	{{/each}}
+	</div>  <!-- / row -->
+
+	</template>
+	
+
+
